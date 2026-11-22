@@ -1,0 +1,53 @@
+name: CodeGuard gate
+description: Read a CodeGuard PR gate and save its SARIF findings with a SHA256-pinned CLI
+inputs:
+  cli-wheel-url:
+    description: Direct HTTPS URL of a published CLI release wheel (default the release this commit pins)
+    default: https://codeguard.grcxai.com/downloads/cli/codeguard-0.2.26-py3-none-any.whl
+  cli-sha256:
+    description: SHA256 of that exact wheel (from the signed manifest beside it)
+    default: f25417ace15c8ff41100ac52c09d21e0b4d55199c9ebef06bb1bf8781d5082f7
+  scan-id:
+    description: Existing hosted PR scan UUID
+    required: true
+  api-url:
+    description: CodeGuard HTTPS API origin
+    default: https://codeguard.grcxai.com
+  code-scanning:
+    description: "'true' also uploads the SARIF to GitHub code scanning (the job needs permissions security-events: write; private repositories need GitHub Advanced Security)"
+    default: 'false'
+outputs:
+  sarif:
+    description: SARIF artifact path; upload in a caller step with if always()
+    value: codeguard.sarif
+runs:
+  using: composite
+  steps:
+    - name: Install pinned CodeGuard release
+      shell: bash
+      env:
+        CODEGUARD_CLI_WHEEL_URL: ${{ inputs.cli-wheel-url }}
+        CODEGUARD_CLI_SHA256: ${{ inputs.cli-sha256 }}
+      run: |
+        python3 -m venv "$RUNNER_TEMP/codeguard-cli"
+        "$RUNNER_TEMP/codeguard-cli/bin/python" "$GITHUB_ACTION_PATH/scripts/install_release.py"
+    - name: Export findings and enforce gate
+      shell: bash
+      env:
+        CODEGUARD_SCAN_ID: ${{ inputs.scan-id }}
+        CODEGUARD_API_URL: ${{ inputs.api-url }}
+      run: |
+        "$RUNNER_TEMP/codeguard-cli/bin/codeguard" gate --scan "$CODEGUARD_SCAN_ID" --sarif codeguard.sarif
+    - name: Retain SARIF even when the gate blocks
+      if: ${{ always() && hashFiles('codeguard.sarif') != '' }}
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: codeguard-${{ inputs.scan-id }}
+        path: codeguard.sarif
+        if-no-files-found: error
+    - name: Upload to GitHub code scanning, even when the gate blocks
+      if: ${{ always() && inputs.code-scanning == 'true' && hashFiles('codeguard.sarif') != '' }}
+      uses: github/codeql-action/upload-sarif@1bd86f2fdb4b86187fa4059f16f31a3202acc9ea # v4.39.4
+      with:
+        sarif_file: codeguard.sarif
+        category: codeguard

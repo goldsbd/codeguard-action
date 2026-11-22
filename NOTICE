@@ -1,0 +1,16 @@
+CodeGuard CLI and MCP server
+Copyright 2026 CodeGuard contributors
+
+The Python CLI and MCP server in this directory are licensed under Apache-2.0.
+No detector executable, rule pack, or vendored SAST rule pattern is distributed
+in the Python package. The package invokes tools installed separately by the user:
+
+- Opengrep 2.0.0: GNU Lesser General Public License (LGPL-2.1).
+  https://github.com/opengrep/opengrep
+- Gitleaks 8.30.1: MIT License.
+  https://github.com/gitleaks/gitleaks
+- Optional CodeGuard structural cg executable and signed pack: separately
+  provisioned; this license does not grant rights to structural rule packs.
+
+Local Opengrep rules (including the repository's vendored GitLab SAST rules)
+retain their own licenses. They are not included in this release surface.
