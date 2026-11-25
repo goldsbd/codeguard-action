@@ -1,5 +1,5 @@
 CodeGuard CLI and MCP server
-Copyright 2026 CodeGuard contributors
+Copyright 2026 AiBizzApps Limited
 
 The Python CLI and MCP server in this directory are licensed under Apache-2.0.
 No detector executable, rule pack, or vendored SAST rule pattern is distributed
@@ -10,7 +10,10 @@ in the Python package. The package invokes tools installed separately by the use
 - Gitleaks 8.30.1: MIT License.
   https://github.com/gitleaks/gitleaks
 - Optional CodeGuard structural cg executable and signed pack: separately
-  provisioned; this license does not grant rights to structural rule packs.
+  provisioned and proprietary (AiBizzApps Limited), licensed only under the
+  CodeGuard Terms of Service, clause 7 (https://codeguard.grcxai.com/legal/terms/);
+  the cg licence ships beside it as cg-LICENSE. Apache-2.0 grants no rights to
+  cg, rule packs or rubrics.
 
 Local Opengrep rules (including the repository's vendored GitLab SAST rules)
 retain their own licenses. They are not included in this release surface.

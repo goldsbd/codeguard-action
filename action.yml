@@ -3,10 +3,10 @@ description: Read a CodeGuard PR gate and save its SARIF findings with a SHA256-
 inputs:
   cli-wheel-url:
     description: Direct HTTPS URL of a published CLI release wheel (default the release this commit pins)
-    default: https://codeguard.grcxai.com/downloads/cli/codeguard-0.2.42-py3-none-any.whl
+    default: https://codeguard.grcxai.com/downloads/cli/codeguard-0.2.43-py3-none-any.whl
   cli-sha256:
     description: SHA256 of that exact wheel (from the signed manifest beside it)
-    default: 9f85fd15e97dfc460d018a0d99f103ab8815b2e9d0e16fb68071a22b1ee1788c
+    default: 5d69923ab46650e0f7061dec0cd92a561f5ffd6571ab1fbab2a89ba4aae0e4dd
   scan-id:
     description: Existing hosted PR scan UUID
     required: true
