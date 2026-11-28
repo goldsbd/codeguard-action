@@ -65,8 +65,8 @@ The SARIF is written to `codeguard.sarif` and kept as a workflow artifact even w
 `manifest.json.sig` is its Ed25519 signature. Published wheels are never replaced: a new CLI is a new version.
 
 ```sh
-curl -fsSO https://codeguard.grcxai.com/downloads/cli/codeguard-0.2.50-py3-none-any.whl
-shasum -a 256 codeguard-0.2.50-py3-none-any.whl   # 76a0a205ac86f74ad00c9b54110d6dd051fc6314d5cd3d926bf19483f89b865a
+curl -fsSO https://codeguard.grcxai.com/downloads/cli/codeguard-0.2.51-py3-none-any.whl
+shasum -a 256 codeguard-0.2.51-py3-none-any.whl   # d02f106bfb3fc161c7931798d3122a4b97a91847eacac40ec97d379e5bf591cf
 ```
 
 ## Licence
